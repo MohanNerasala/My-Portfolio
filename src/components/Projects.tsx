@@ -28,7 +28,7 @@ const ProjectBlock = React.memo(({ project, index }: ProjectBlockProps) => {
   return (
     <div 
       ref={cardRef} 
-      className="sticky top-[5vh] lg:top-[15vh] w-full flex items-center justify-center min-h-[60vh] mb-[60vh] last:mb-[20vh]"
+      className="sticky top-[5vh] lg:top-[15vh] w-full flex items-center justify-center min-h-[60vh] mb-[12vh] sm:mb-[30vh] lg:mb-[60vh] last:mb-[10vh] lg:last:mb-[20vh]"
     >
       <motion.div 
         style={{ scale, opacity }}
