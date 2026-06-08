@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: #000000;
+    --text: #ffffff;
+    --text-muted: #888888;
+    --card-bg: #0a0a0a;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --glass: rgba(255, 255, 255, 0.04);
+    --glass-strong: rgba(0, 0, 0, 0.8);
+    --term-head: #111111;
+    --term-border: #222222;
+    --term-body: rgba(0, 0, 0, 0.5);
+    --term-text: #ffffff;
+    --term-text-muted: #9ca3af;
+  }
+
+  html.light {
+    --bg: #f9f9fb;
+    --text: #1a1a2e; /* Deep navy-black — premium, not harsh */
+    --text-muted: #64647a; /* Warm purple-gray muted tone */
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --border-color: rgba(100, 100, 150, 0.1);
+    --glass: rgba(255, 255, 255, 0.6);
+    --glass-strong: rgba(255, 255, 255, 0.95);
+    --term-head: #ededf2;
+    --term-border: rgba(100, 100, 150, 0.12);
+    --term-body: rgba(255, 255, 255, 0.9);
+    --term-text: #1a1a2e;
+    --term-text-muted: #64647a;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--bg);
+  }
+  
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    @apply font-sans overflow-x-hidden antialiased transition-colors duration-500;
+  }
+}
+
+@layer utilities {
+  .bg-background { background-color: var(--bg); }
+  .text-foreground { color: var(--text); }
+  .text-muted { color: var(--text-muted); }
+  .bg-cardBg { background-color: var(--card-bg); }
+  .border-border { border-color: var(--border-color); }
+  .bg-glass { background-color: var(--glass); }
+  .bg-glassStrong { background-color: var(--glass-strong); }
+  
+  .bg-termHead { background-color: var(--term-head); }
+  .border-termBorder { border-color: var(--term-border); }
+  .bg-termBody { background-color: var(--term-body); }
+  .text-termText { color: var(--term-text); }
+  .text-termMuted { color: var(--term-text-muted); }
+  
+  .bg-navScrolled { background-color: rgba(0, 0, 0, 0.8); }
+}
+
+/* =============================================
+   PREMIUM LIGHT MODE — Aurora Background System
+   Inspired by Linear, Vercel, Apple & Stripe
+   ============================================= */
+
+html.light body {
+  background-color: #f9f9fb;
+  background-image:
+    /* Aurora Orb 1 — Warm Gold top-center spotlight */
+    radial-gradient(ellipse 120% 60% at 50% -10%, rgba(245, 197, 24, 0.15) 0%, transparent 65%),
+    /* Aurora Orb 2 — Soft violet top-right ambient */
+    radial-gradient(ellipse 80% 80% at 100% 0%, rgba(167, 139, 250, 0.08) 0%, transparent 60%),
+    /* Aurora Orb 3 — Icy blue bottom-left depth */
+    radial-gradient(ellipse 70% 70% at -5% 100%, rgba(96, 165, 250, 0.06) 0%, transparent 60%),
+    /* Base gradient — warm white to cool silver */
+    linear-gradient(160deg, #ffffff 0%, #f5f5f8 50%, #ededf2 100%);
+  background-attachment: fixed;
+}
+
+html.light .bg-navScrolled {
+  background-color: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(20px) saturate(200%) brightness(105%);
+  -webkit-backdrop-filter: blur(20px) saturate(200%) brightness(105%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 8px 32px rgba(0, 0, 0, 0.04);
+}
+
+/* Background blueprint grid — Dark Mode */
+.bg-grid-lines {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+}
+
+/* Premium Architectural Dot Matrix — Light Mode */
+html.light .bg-grid-lines {
+  /* Refined dots: slightly larger, spaced elegantly */
+  background-image: radial-gradient(circle, rgba(90, 90, 130, 0.12) 1px, transparent 1px) !important;
+  background-size: 32px 32px !important;
+  /* Fade from dense at top-center to invisible at bottom — Vercel signature */
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, transparent 100%);
+}
+
+/* Noise overlay */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+html.light .noise-overlay {
+  opacity: 0.05; /* Slightly higher grain in light mode for premium texture */
+}
+
+/* Custom scrollbar matching theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+html.light ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 9999px;
+  border: 2px solid #000;
+}
+html.light ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border: 2px solid #f1f5f9;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #f5c518;
+}
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: #f5c518;
+}
+
+/* Hide scrollbar for specific elements */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Glass classes */
+.glass-panel {
+  @apply bg-glass backdrop-blur-[20px] border border-border;
+}
+
+/* Premium Light Mode Overrides */
+html.light .glass-panel {
+  background: rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(24px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.02),
+    0 8px 16px rgba(0, 0, 0, 0.03),
+    0 16px 32px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.3) !important;
+}
+
+html.light .shadow-2xl {
+  box-shadow: 
+    0 10px 20px rgba(0, 0, 0, 0.03),
+    0 25px 50px -12px rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light .hover\:shadow-\[0_15px_30px_rgba\(245\,197\,24\,0\.15\)\]:hover {
+  box-shadow: 
+    0 15px 40px rgba(245, 197, 24, 0.2), 
+    0 5px 15px rgba(245, 197, 24, 0.1) !important;
+}
+
+::selection {
+  background-color: rgba(245, 197, 24, 0.3);
+  color: #fff;
+}
+html.light ::selection {
+  background-color: rgba(245, 197, 24, 0.3);
+  color: #000;
+}
