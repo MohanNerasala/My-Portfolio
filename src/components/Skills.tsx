@@ -21,9 +21,7 @@ export default function Skills() {
     <section id="skills" className="relative py-32 bg-cardBg overflow-hidden min-h-screen flex items-center">
       
       {/* Giant Watermark */}
-      <div className="absolute top-20 right-0 lg:right-20 font-bebas text-[200px] md:text-[300px] leading-none text-gold opacity-[0.04] pointer-events-none select-none z-0">
-        02
-      </div>
+
 
       <div className="max-w-[1400px] mx-auto relative z-10 w-full" ref={containerRef}>
         

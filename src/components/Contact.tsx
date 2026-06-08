@@ -41,9 +41,7 @@ export default function Contact() {
     <section id="contact" className="relative py-32 overflow-hidden">
       
       {/* Giant Watermark */}
-      <div className="absolute top-20 right-0 lg:right-20 font-bebas text-[200px] md:text-[300px] leading-none text-gold opacity-[0.04] pointer-events-none select-none z-0">
-        04
-      </div>
+
 
       <div className="max-w-7xl mx-auto px-6 relative z-10" ref={containerRef}>
         

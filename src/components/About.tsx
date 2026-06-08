@@ -11,9 +11,7 @@ export default function About() {
     <section id="about" className="relative py-32 px-6 overflow-hidden">
       
       {/* Giant Watermark */}
-      <div className="absolute top-20 left-0 lg:left-20 font-bebas text-[200px] md:text-[300px] leading-none text-gold opacity-[0.04] pointer-events-none select-none z-0">
-        01
-      </div>
+
 
       <div className="max-w-7xl mx-auto relative z-10" ref={containerRef}>
         
