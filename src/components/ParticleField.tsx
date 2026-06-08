@@ -1,70 +1,71 @@
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-
-interface Particle {
-  id: number;
-  x: number;
-  y: number;
-  size: number;
-  duration: number;
-  delay: number;
-}
+import { useEffect, useRef } from 'react';
+import { useTheme } from '../contexts/ThemeProvider';
 
 export default function ParticleField() {
-  const [particles, setParticles] = useState<Particle[]>([]);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
-    // Check for prefers-reduced-motion
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (mediaQuery.matches) return;
 
-    const particleCount = 100;
-    const newParticles: Particle[] = [];
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-    for (let i = 0; i < particleCount; i++) {
-      newParticles.push({
-        id: i,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        size: Math.random() * 3 + 1, // 1px to 4px
-        duration: Math.random() * 20 + 20, // 20s to 40s
-        delay: Math.random() * -40, // Start at different times
-      });
-    }
+    let animationId: number;
+    const isLight = theme === 'light';
+    const particleColor = isLight ? 'rgba(90,90,130,' : 'rgba(245,197,24,';
+    const count = window.innerWidth < 768 ? 40 : 70; // fewer on mobile
 
-    setParticles(newParticles);
-  }, []);
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
 
-  if (particles.length === 0) return null;
+    // Build particles once
+    const particles = Array.from({ length: count }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: -Math.random() * 0.4 - 0.1,
+      r: Math.random() * 1.5 + 0.5,
+      opacity: Math.random() * 0.2 + 0.05,
+    }));
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (const p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `${particleColor}${p.opacity})`;
+        ctx.fill();
+        p.x += p.vx;
+        p.y += p.vy;
+        // Wrap around edges
+        if (p.y < -5) p.y = canvas.height + 5;
+        if (p.x < -5) p.x = canvas.width + 5;
+        if (p.x > canvas.width + 5) p.x = -5;
+      }
+      animationId = requestAnimationFrame(draw);
+    };
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener('resize', resize);
+    };
+  }, [theme]);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-      {particles.map((particle) => (
-        <motion.div
-          key={particle.id}
-          className="absolute rounded-full bg-gold"
-          style={{
-            left: `${particle.x}vw`,
-            top: `${particle.y}vh`,
-            width: particle.size,
-            height: particle.size,
-            opacity: 0.15 + Math.random() * 0.2, // 0.15 to 0.35 opacity
-          }}
-          animate={{
-            y: [`${particle.y}vh`, `${(particle.y - 100) % 100}vh`],
-            x: [
-              `${particle.x}vw`, 
-              `${particle.x + (Math.random() * 10 - 5)}vw`
-            ],
-          }}
-          transition={{
-            duration: particle.duration,
-            delay: particle.delay,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-        />
-      ))}
-    </div>
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 pointer-events-none z-0"
+      style={{ willChange: 'transform' }}
+    />
   );
 }
+
