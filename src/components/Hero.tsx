@@ -11,7 +11,16 @@ export default function Hero() {
   const isInView = useInView(heroRef, { amount: 0.2 });
 
   const toggleMute = () => {
-    setIsMuted(!isMuted);
+    const nextMuted = !isMuted;
+    setIsMuted(nextMuted);
+    
+    // Synchronously update the video element to satisfy strict mobile browser (iOS) user gesture requirements
+    if (videoRef.current) {
+      videoRef.current.muted = nextMuted;
+      if (!nextMuted) {
+        videoRef.current.play().catch(e => console.error("Play failed after unmute:", e));
+      }
+    }
   };
 
   // Attempt to autoplay with sound. If blocked, wait for first user interaction (click/touch) to unmute automatically.
