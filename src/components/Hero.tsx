@@ -51,7 +51,7 @@ export default function Hero() {
   return (
     <section ref={heroRef} id="hero" className="relative min-h-screen lg:h-screen w-full flex flex-col lg:flex-row items-center lg:items-center justify-start lg:justify-start overflow-hidden bg-black pb-12 lg:pb-0">
       {/* Background Video */}
-      <div className="relative w-full h-[55vh] md:h-[60vh] lg:absolute lg:inset-0 lg:h-full z-0 flex-shrink-0">
+      <div className="relative w-full h-[55vh] md:h-[60vh] lg:absolute lg:inset-0 lg:h-full flex-shrink-0">
         <video 
           ref={videoRef}
           src={bgVideo} 
