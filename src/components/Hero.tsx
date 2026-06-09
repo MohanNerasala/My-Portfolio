@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import bgVideo from '../assets/my video.mp4';
 
 export default function Hero() {
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const heroRef = useRef<HTMLElement>(null);
   
@@ -21,6 +21,20 @@ export default function Hero() {
         videoRef.current.muted = true;
       } else {
         videoRef.current.muted = isMuted;
+        
+        // Attempt to play. Browsers heavily restrict autoplaying video WITH sound.
+        // If the browser blocks it, it throws a NotAllowedError. We must catch this
+        // and fallback to muted playback so the video doesn't just freeze.
+        const playPromise = videoRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            console.log("Autoplay with sound was blocked by the browser. Falling back to muted.", error);
+            // Fallback: Mute the video and try playing again so the visual still works
+            videoRef.current!.muted = true;
+            setIsMuted(true);
+            videoRef.current!.play().catch(e => console.log("Playback entirely blocked:", e));
+          });
+        }
       }
     }
   }, [isMuted, isInView]);
