@@ -41,11 +41,14 @@ export default function Hero() {
         }
 
         // Add a one-time listener to unmute instantly on the user's first touch/click anywhere
-        const enableAudio = () => {
+        const enableAudio = (e: Event) => {
+          // Ignore if the user directly clicked the mute button (let the button's own handler do it)
+          if ((e.target as HTMLElement)?.closest('button')) return;
+
           setIsMuted(false);
           if (videoRef.current) {
             videoRef.current.muted = false;
-            videoRef.current.play();
+            videoRef.current.play().catch(() => {});
           }
           document.removeEventListener('click', enableAudio);
           document.removeEventListener('touchstart', enableAudio);
@@ -124,7 +127,7 @@ export default function Hero() {
           transition={{ delay: 1, duration: 0.5 }}
           title={isMuted ? "Unmute Video" : "Mute Video"}
         >
-          {isMuted ? <VolumeX size={16} className="lg:w-6 lg:h-6" /> : <Volume2 size={16} className="lg:w-6 lg:h-6" />}
+          {isMuted ? <VolumeX size={16} className="lg:w-6 lg:h-6 pointer-events-none" /> : <Volume2 size={16} className="lg:w-6 lg:h-6 pointer-events-none" />}
           
           {/* Helper tooltip on hover */}
           <span className="hidden lg:block absolute right-full mr-4 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-black/80 backdrop-blur-md text-xs font-semibold tracking-wider rounded border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
