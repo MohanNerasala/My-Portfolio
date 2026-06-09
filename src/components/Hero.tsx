@@ -14,6 +14,40 @@ export default function Hero() {
     setIsMuted(!isMuted);
   };
 
+  // Attempt to autoplay with sound. If blocked, wait for first user interaction (click/touch) to unmute automatically.
+  useEffect(() => {
+    if (!videoRef.current) return;
+    
+    // Try to play with sound immediately
+    videoRef.current.muted = false;
+    const playPromise = videoRef.current.play();
+    
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Browser blocked it. Play muted so video at least moves.
+        setIsMuted(true);
+        if (videoRef.current) {
+          videoRef.current.muted = true;
+          videoRef.current.play().catch(e => console.error("Autoplay failed:", e));
+        }
+
+        // Add a one-time listener to unmute instantly on the user's first touch/click anywhere
+        const enableAudio = () => {
+          setIsMuted(false);
+          if (videoRef.current) {
+            videoRef.current.muted = false;
+            videoRef.current.play();
+          }
+          document.removeEventListener('click', enableAudio);
+          document.removeEventListener('touchstart', enableAudio);
+        };
+
+        document.addEventListener('click', enableAudio, { once: true });
+        document.addEventListener('touchstart', enableAudio, { once: true });
+      });
+    }
+  }, []);
+
   // Ensure video stays synced with state, and force mute when scrolled away
   useEffect(() => {
     if (videoRef.current) {
@@ -21,20 +55,6 @@ export default function Hero() {
         videoRef.current.muted = true;
       } else {
         videoRef.current.muted = isMuted;
-        
-        // Attempt to play. Browsers heavily restrict autoplaying video WITH sound.
-        // If the browser blocks it, it throws a NotAllowedError. We must catch this
-        // and fallback to muted playback so the video doesn't just freeze.
-        const playPromise = videoRef.current.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(error => {
-            console.log("Autoplay with sound was blocked by the browser. Falling back to muted.", error);
-            // Fallback: Mute the video and try playing again so the visual still works
-            videoRef.current!.muted = true;
-            setIsMuted(true);
-            videoRef.current!.play().catch(e => console.log("Playback entirely blocked:", e));
-          });
-        }
       }
     }
   }, [isMuted, isInView]);
@@ -77,7 +97,7 @@ export default function Hero() {
         />
         
         {/* Gradient Overlay for Mobile: Fades bottom to top to blend into black background */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent lg:hidden z-10 pointer-events-none" />
+        <div className="absolute inset-x-0 -bottom-[2px] h-1/2 bg-gradient-to-t from-black via-black/60 to-transparent lg:hidden z-10 pointer-events-none" />
         
         {/* Gradient Overlay for Desktop: Dark to transparent (left to right) */}
         <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent z-10 pointer-events-none" />
@@ -124,7 +144,7 @@ export default function Hero() {
 
           {/* Heading */}
           <motion.div variants={itemVariants} className="mb-6 lg:mb-6 flex flex-col items-center lg:items-start w-full">
-            <h1 className="font-bebas text-white text-[42px] sm:text-[50px] lg:text-[110px] leading-[0.85] tracking-wide drop-shadow-2xl">
+            <h1 className="font-bebas text-white text-[42px] sm:text-[50px] lg:text-[110px] leading-[0.85] tracking-wide drop-shadow-2xl mb-3 lg:mb-0">
               FULL STACK
             </h1>
             <h2 className="font-bebas text-[#ffd700] lg:bg-gradient-to-r lg:from-[#ffd700] lg:via-[#ffeb73] lg:to-[#d4af37] lg:bg-clip-text lg:text-transparent text-[26px] sm:text-[32px] lg:text-[95px] leading-[0.9] drop-shadow-2xl pb-1 lg:pb-2 text-center lg:text-left">
