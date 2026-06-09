@@ -48,13 +48,13 @@ export default function Navbar() {
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           isScrolled
             ? 'bg-navScrolled backdrop-blur-[20px] border-b border-border'
-            : 'bg-transparent border-b border-transparent py-2'
+            : 'bg-transparent border-b border-transparent lg:py-2'
         }`}
         initial={{ y: 0 }}
         animate={{ y: isVisible ? 0 : -100 }}
         transition={{ duration: 0.3 }}
       >
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-5 lg:px-6 py-2 lg:py-4 flex items-center justify-between">
           
           {/* Logo */}
           <a href="#hero" className="flex items-center space-x-2 group z-50">
