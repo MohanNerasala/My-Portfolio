@@ -37,17 +37,27 @@ const ProjectBlock = React.memo(({ project, index }: ProjectBlockProps) => {
         <div className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-4 sm:gap-8 lg:gap-24`}>
           
           {/* Image/Mockup Placeholder Side */}
-          <div className="w-full lg:w-1/2 aspect-[16/9] lg:aspect-[4/3] rounded-2xl relative overflow-hidden group bg-[var(--glass)] border border-border shadow-inner">
+          <a 
+            href={project.demoUrl !== "#" ? project.demoUrl : project.githubUrl}
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="w-full lg:w-1/2 aspect-[16/9] lg:aspect-[4/3] rounded-2xl relative overflow-hidden group bg-black/40 border border-white/10 shadow-2xl block cursor-pointer"
+            data-cursor="hover"
+          >
             {project.imageUrl ? (
-              <img src={project.imageUrl} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <img src={project.imageUrl} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
             ) : project.demoUrl && project.demoUrl !== "#" ? (
-              <iframe 
-                src={project.demoUrl} 
-                title={project.title}
-                className="w-full h-full pointer-events-none opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 origin-center" 
-                sandbox="allow-scripts allow-same-origin"
-                scrolling="no"
-              />
+              <div className="w-full h-full relative">
+                {/* A glass overlay to ensure it's not fully intractable but looks bright */}
+                <div className="absolute inset-0 bg-transparent z-10" />
+                <iframe 
+                  src={project.demoUrl} 
+                  title={project.title}
+                  className="w-full h-full pointer-events-none opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-1000 origin-center" 
+                  sandbox="allow-scripts allow-same-origin"
+                  scrolling="no"
+                />
+              </div>
             ) : (
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-muted font-sans tracking-widest uppercase text-sm border border-border px-6 py-3 rounded-full shadow-lg">
@@ -55,8 +65,20 @@ const ProjectBlock = React.memo(({ project, index }: ProjectBlockProps) => {
                 </div>
               </div>
             )}
-            <div className="absolute inset-0 shadow-[inset_0_0_30px_rgba(0,0,0,0.8)] pointer-events-none transition-shadow duration-700 group-hover:shadow-[inset_0_0_10px_rgba(0,0,0,0.3)]" />
-          </div>
+            
+            {/* Dark gradient overlay that appears on hover for text contrast */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20" />
+            
+            {/* View Project Button on Hover */}
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 z-30 translate-y-8 group-hover:translate-y-0">
+              <span className="px-6 py-3 bg-gold text-black font-bebas text-xl tracking-wider rounded-full shadow-[0_0_30px_rgba(245,197,24,0.5)] transform scale-90 group-hover:scale-100 transition-transform duration-500">
+                View Live Project
+              </span>
+            </div>
+            
+            {/* Ambient inner glow */}
+            <div className="absolute inset-0 shadow-[inset_0_0_20px_rgba(255,255,255,0.05)] pointer-events-none z-30" />
+          </a>
 
           {/* Content Side */}
           <div className="w-full lg:w-1/2 flex flex-col items-start">

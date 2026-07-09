@@ -18,7 +18,7 @@ export const projectsData: Project[] = [
     description: "An immersive frontend application featuring 3D animations and scroll-based interactions using Framer Motion, fully deployed on a cloud server.",
     stack: ["React JS", "Framer Motion", "3D Animation", "Cloud Server"],
     categoryBadge: "Frontend",
-    githubUrl: "#",
-    demoUrl: "#"
+    githubUrl: "https://github.com/MohanNerasala/Cooldrink_ShowCase",
+    demoUrl: "https://cooldrink-show-case.vercel.app/"
   }
 ];
