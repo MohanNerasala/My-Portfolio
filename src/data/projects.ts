@@ -5,7 +5,7 @@ export const projectsData: Project[] = [
     id: "proj-1",
     num: "01",
     title: "Menvy - E-Commerce",
-    description: "A full-stack e-commerce application built using AI tools. Features a comprehensive shopping architecture, secure transactions, and scalable cloud server deployment.",
+    description: "A full-stack e-commerce application built using AI tools. Features a standout AI Virtual Trial Room to preview outfits for the perfect look, seamlessly integrated with direct WhatsApp ordering. Backed by a robust architecture.",
     stack: ["Java Spring Boot", "React JS", "Supabase", "Cloud Server"],
     categoryBadge: "Full Stack",
     githubUrl: "https://github.com/MohanNerasala/online-shopping",
