@@ -7,6 +7,7 @@ export interface Project {
   categoryBadge: string; 
   githubUrl?: string;
   demoUrl?: string;
+  imageUrl?: string;
 }
 
 export interface SkillCategory {

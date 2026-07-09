@@ -38,12 +38,24 @@ const ProjectBlock = React.memo(({ project, index }: ProjectBlockProps) => {
           
           {/* Image/Mockup Placeholder Side */}
           <div className="w-full lg:w-1/2 aspect-[16/9] lg:aspect-[4/3] rounded-2xl relative overflow-hidden group bg-[var(--glass)] border border-border shadow-inner">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-muted font-sans tracking-widest uppercase text-sm border border-border px-6 py-3 rounded-full shadow-lg">
-                Project Preview
+            {project.imageUrl ? (
+              <img src={project.imageUrl} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            ) : project.demoUrl && project.demoUrl !== "#" ? (
+              <iframe 
+                src={project.demoUrl} 
+                title={project.title}
+                className="w-full h-full pointer-events-none opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 origin-center" 
+                sandbox="allow-scripts allow-same-origin"
+                scrolling="no"
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-muted font-sans tracking-widest uppercase text-sm border border-border px-6 py-3 rounded-full shadow-lg">
+                  Project Preview
+                </div>
               </div>
-            </div>
-            <div className="absolute inset-0 bg-gold/0 group-hover:bg-gold/10 transition-colors duration-500" />
+            )}
+            <div className="absolute inset-0 shadow-[inset_0_0_30px_rgba(0,0,0,0.8)] pointer-events-none transition-shadow duration-700 group-hover:shadow-[inset_0_0_10px_rgba(0,0,0,0.3)]" />
           </div>
 
           {/* Content Side */}
