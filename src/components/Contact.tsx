@@ -2,6 +2,7 @@ import { motion, useInView, type Variants } from 'framer-motion';
 import { useRef } from 'react';
 import { FileText, ArrowRight } from 'lucide-react';
 import { Github, Linkedin } from './BrandIcons';
+import resumeFile from '../assets/Nerasala Mohan Resume.pdf';
 
 export default function Contact() {
   const containerRef = useRef(null);
@@ -19,21 +20,21 @@ export default function Contact() {
   const cards = [
     {
       icon: <Github size={32} />,
-      title: "github.com/chakrimohan",
+      title: "github.com/MohanNerasala",
       btnText: "View Code",
-      href: "#",
+      href: "https://github.com/MohanNerasala",
     },
     {
       icon: <Linkedin size={32} />,
       title: "Connect with me",
       btnText: "Open LinkedIn",
-      href: "#",
+      href: "https://www.linkedin.com/in/nerasala-mohan-471330364",
     },
     {
       icon: <FileText size={32} />,
       title: "Download CV",
       btnText: "Get Resume",
-      href: "#",
+      href: resumeFile,
     }
   ];
 
@@ -85,6 +86,8 @@ export default function Contact() {
             <motion.a
               key={i}
               href={card.href}
+              target="_blank"
+              rel="noopener noreferrer"
               variants={cardVariants}
               className="glass-panel p-10 rounded-2xl flex flex-col items-center text-center group hover:-translate-y-2 hover:border-gold hover:shadow-[0_20px_40px_rgba(245,197,24,0.15)] bg-cardBg border-border transition-all duration-500"
               data-cursor="hover"
