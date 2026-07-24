@@ -6,11 +6,15 @@ export function useCursorPosition() {
   const [isHoveringProject, setIsHoveringProject] = useState(false);
 
   useEffect(() => {
+    // Only attach cursor tracking on devices with a fine pointer (e.g. mice, not touchscreens)
+    const isPointerFine = window.matchMedia('(pointer: fine)').matches;
+    if (!isPointerFine) return;
+
     const handleMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
     // Provide a way to globally set hover states based on data attributes
     const handleMouseOver = (e: MouseEvent) => {
@@ -33,8 +37,8 @@ export function useCursorPosition() {
       }
     };
 
-    window.addEventListener('mouseover', handleMouseOver);
-    window.addEventListener('mouseout', handleMouseOut);
+    window.addEventListener('mouseover', handleMouseOver, { passive: true });
+    window.addEventListener('mouseout', handleMouseOut, { passive: true });
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);

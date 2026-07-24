@@ -115,7 +115,7 @@ export default function Hero() {
         <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent z-10 pointer-events-none" />
         
         {/* Optional subtle grain/noise for premium texture */}
-        <div className="absolute inset-0 noise-overlay opacity-30 z-10 pointer-events-none" />
+        <div className="absolute inset-0 noise-overlay hidden md:block opacity-30 z-10 pointer-events-none" />
 
         {/* Audio Toggle Button - Positioned over video on mobile, bottom right on desktop */}
         <motion.button

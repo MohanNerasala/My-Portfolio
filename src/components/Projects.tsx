@@ -53,6 +53,7 @@ const ProjectBlock = React.memo(({ project, index }: ProjectBlockProps) => {
                 <iframe 
                   src={project.demoUrl} 
                   title={project.title}
+                  loading="lazy"
                   className="w-full h-full pointer-events-none opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-1000 origin-center" 
                   sandbox="allow-scripts allow-same-origin"
                   scrolling="no"

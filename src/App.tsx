@@ -34,8 +34,8 @@ export default function App() {
         <div className="relative min-h-screen bg-background text-foreground font-sans transition-colors duration-500">
         
         {/* Global Overlays & Effects */}
-        <div className="fixed inset-0 bg-grid-lines pointer-events-none z-0" />
-        <div className="noise-overlay" />
+        <div className="fixed inset-0 bg-grid-lines pointer-events-none z-0 hidden md:block" />
+        <div className="noise-overlay hidden md:block" />
         <ParticleField />
         <ScrollProgress />
 

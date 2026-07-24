@@ -36,7 +36,12 @@ export default function ParticleField() {
       opacity: Math.random() * 0.2 + 0.05,
     }));
 
+    // Disable animation on mobile to guarantee smooth scrolling
+    const isMobile = window.innerWidth < 768;
+
     const draw = () => {
+      if (isMobile) return; // Do not animate on mobile
+      
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       for (const p of particles) {
         ctx.beginPath();
@@ -52,10 +57,13 @@ export default function ParticleField() {
       }
       animationId = requestAnimationFrame(draw);
     };
-    draw();
+    
+    if (!isMobile) {
+      draw();
+    }
 
     return () => {
-      cancelAnimationFrame(animationId);
+      if (animationId) cancelAnimationFrame(animationId);
       window.removeEventListener('resize', resize);
     };
   }, [theme]);
@@ -63,7 +71,7 @@ export default function ParticleField() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0"
+      className="fixed inset-0 pointer-events-none z-0 hidden md:block"
       style={{ willChange: 'transform' }}
     />
   );
